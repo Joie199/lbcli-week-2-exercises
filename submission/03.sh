@@ -2,5 +2,6 @@
 # Add funds to the address.
 # Return only the Address
 gtaddr=$(bitcoin-cli -regtest -rpcwallet=btrustwallet getnewaddress "" bech32m)
+bitcoin-cli -regtest validateaddress $gtaddr | jq -r '.isvalid'
 bitcoin-cli -regtest generatetoaddress 101 "$gtaddr"
 echo "$gtaddr"
