@@ -3,4 +3,4 @@
 # Return only the Address
 addr=$(bitcoin-cli -regtest -rpcwallet=btrustwallet getnewaddress "" "bech32")
 echo "address: $addr"
-bitcoin-cli -regtest -rpcwallet=btrustwallet getnewaddress "$addr" "bech32"
+bitcoin-cli -regtest -rpcwallet=btrustwallet generatetoaddress 101 "$addr" "bech32"
