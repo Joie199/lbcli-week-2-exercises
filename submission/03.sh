@@ -1,6 +1,6 @@
 # Create a SegWit address.
 # Add funds to the address.
 # Return only the Address
-$addr=$(bitcoin-cli -regtest -rpcwallet=btrustwallet getnewaddress "" "bech32")
+addr=$(bitcoin-cli -regtest -rpcwallet=btrustwallet getnewaddress "" "bech32")
 bitcoin-cli -regtest -rpcwallet=btrustwallet generatetoaddress 101 "$addr" > /dev/null
 echo "$addr"
