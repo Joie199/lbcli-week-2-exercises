@@ -7,9 +7,6 @@ TXID=$(bitcoin-cli -regtest decoderawtransaction "$raw_tx" | jq -r '.vin[0].txid
 
 
 TXID=$(bitcoin-cli -regtest decoderawtransaction "$raw_tx" | jq -r '.vin[0].txid')
-
 rawtxhex=$(bitcoin-cli -regtest createrawtransaction \
-'[{"txid":"'$TXID'","vout":0},{"txid":"'$TXID'","vout":1}]' \
+'[{"txid":"'$TXID'","vout":0,"sequence":4294967293},{"txid":"'$TXID'","vout":1,"sequence":4294967293}]' \
 '{"2MvLcssW49n9atmksjwg2ZCMsEMsoj3pzUP":0.23659108}')
-
-echo $rawtxhex
