@@ -299,7 +299,13 @@ check_cmd "Change output identification" "CHANGE_OUTPUT_INDEX" "$CHANGE_OUTPUT_I
 
 # STUDENT TASK: Create the input JSON structure for the child transaction
 # WRITE YOUR SOLUTION BELOW:
-CHILD_INPUTS=$(jq -n --arg txid "$PARENT_TXID" --argjson vout "$CHANGE_OUTPUT_INDEX" '[{txid: $txid, vout: $vout, sequence: 4294967293 }]')
+CHILD_INPUTS=CHILD_INPUTS=$(jq -n --arg txid "$PARENT_TXID" --arg vout "$CHANGE_OUTPUT_INDEX" '
+[{
+  txid: $txid,
+  vout: ($vout|tonumber),
+  sequence: 4294967293
+}]
+')
 check_cmd "Child input creation" "CHILD_INPUTS" "$CHILD_INPUTS"
 
 # STUDENT TASK: Calculate fees, allowing for a high fee to help the parent transaction
@@ -402,4 +408,4 @@ echo ""
 echo "Ready for real-world Bitcoin development!"
 
 # Output the final transaction hex - useful for verification
-echo $TIMELOCK_TX 
+echo "$TIMELOCK_TX"
