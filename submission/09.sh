@@ -9,7 +9,4 @@ raw_tx="01000000000101c8b0928edebbec5e698d5f86d0474595d9f6a5b2e4e3772cd9d1005f23
 
 TXID=$(bitcoin-cli -regtest decoderawtransaction "$raw_tx" | grep -oP '"txid":\s*"\K[^"]+' | head -1)
 
-bitcoin-cli -regtest createrawtransaction 
-  "[{"txid":"$TXID","vout":0,"sequence":1},{"txid":"$TXID","vout":1,"sequence":1}]" \
-  "[{"$recipient":0.20000000}]"
-09.sh
+bitcoin-cli -regtest createrawtransaction "[{"txid":"$TXID","vout":0,"sequence":1},{"txid":"$TXID","vout":1,"sequence":1}] [{"$recipient":0.20000000}]"
