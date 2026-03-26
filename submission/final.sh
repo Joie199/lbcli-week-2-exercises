@@ -49,17 +49,17 @@ echo ""
 
 # STUDENT TASK: Decode the transaction to get the TXID
 # WRITE YOUR SOLUTION BELOW:
-TXID=$(bitcoin-cli -regtest decoderawtransaction "$BASE_TX")
+TXID=$(bitcoin-cli -regtest decoderawtransaction "$BASE_TX" | jq -r '.txid')
 check_cmd "Transaction decoding" "TXID" "$TXID"
 
 echo "Transaction ID: $TXID"
 
 # STUDENT TASK: Extract the number of inputs and outputs from the transaction
 # WRITE YOUR SOLUTION BELOW:
-NUM_INPUTS= $(echo "$TXID" | jq '.vin | length')
+NUM_INPUTS=$(echo "$TXID" | jq '.vin | length')
 check_cmd "Input counting" "NUM_INPUTS" "$NUM_INPUTS"
 
-NUM_OUTPUTS= $(echo "$TXID"| jq '.vout | length')
+NUM_OUTPUTS=$(echo "$TXID" | jq '.vout | length')
 check_cmd "Output counting" "NUM_OUTPUTS" "$NUM_OUTPUTS"
 
 echo "Number of inputs: $NUM_INPUTS"
@@ -168,7 +168,7 @@ PAYMENT_ADDRESS="2MvLcssW49n9atmksjwg2ZCMsEMsoj3pzUP"
 CHANGE_ADDRESS="bcrt1qg09ftw43jvlhj4wlwwhkxccjzmda3kdm4y83ht"
 
 # STUDENT TASK: Create a proper input JSON for createrawtransaction
-TX_INPUTS= $(jq -n --arg txid "$UTXO_TXID" --argjson vout "$UTXO_VOUT_INDEX" '[ { txid: $txid, vout: $vout, sequence: 4294967293 }]')
+TX_INPUTS= $(jq -n --arg txid "$UTXO_TXID" --argjson vout "$UTXO_VOUT_INDEX"'[ {txid:$txid, vout:$vout, sequence:4294967293} ]')
 check_cmd "Input JSON creation" "TX_INPUTS" "$TX_INPUTS"
 
 # Verify RBF is enabled in the input structure
@@ -194,7 +194,7 @@ TX_OUTPUTS=$(jq -n --arg addr "$PAYMENT_ADDRESS" --arg change "$CHANGE_ADDRESS" 
 check_cmd "Output JSON creation" "TX_OUTPUTS" "$TX_OUTPUTS"
 
 # STUDENT TASK: Create the raw transaction
-RAW_TX=(bitcoin-cli -regtest createrawtransaction "$TX_INPUTS" "$TX_OUTPUTS")
+RAW_TX=$(bitcoin-cli -regtest createrawtransaction "$TX_INPUTS" "$TX_OUTPUTS")
 check_cmd "Raw transaction creation" "RAW_TX" "$RAW_TX"
 
 echo "Successfully created raw transaction!"
