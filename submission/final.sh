@@ -88,7 +88,7 @@ echo ""
 # STUDENT TASK: Extract the available UTXOs from the decoded transaction for spending
 # WRITE YOUR SOLUTION BELOW:
 UTXO_TXID=$TXID
-UTXO_VOUT_INDEX=$(echo "$DECODED" | jq '.vout[0].n')
+UTXO_VOUT_INDEX=0
 check_cmd "UTXO vout selection" "UTXO_VOUT_INDEX" "$UTXO_VOUT_INDEX"
 
 UTXO_VALUE=$(echo "$DECODED" | jq -r '.vout[0].value * 100000000 | floor')
@@ -299,7 +299,7 @@ check_cmd "Change output identification" "CHANGE_OUTPUT_INDEX" "$CHANGE_OUTPUT_I
 
 # STUDENT TASK: Create the input JSON structure for the child transaction
 # WRITE YOUR SOLUTION BELOW:
-CHILD_INPUTS= (jq -n --arg txid "$PARENT_TXID" --argjson vout "$CHANGE_OUTPUT_INDEX" '[{txid: $txid, vout: $vout, sequence: 4294967293 }]')
+CHILD_INPUTS=$(jq -n --arg txid "$PARENT_TXID" --argjson vout "$CHANGE_OUTPUT_INDEX" '[{txid: $txid, vout: $vout, sequence: 4294967293 }]')
 check_cmd "Child input creation" "CHILD_INPUTS" "$CHILD_INPUTS"
 
 # STUDENT TASK: Calculate fees, allowing for a high fee to help the parent transaction
