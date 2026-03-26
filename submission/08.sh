@@ -5,6 +5,6 @@ raw_tx="01000000000101c8b0928edebbec5e698d5f86d0474595d9f6a5b2e4e3772cd9d1005f23
 recipient="2MvLcssW49n9atmksjwg2ZCMsEMsoj3pzUP"
 txid=$(bitcoin-cli -regtest decoderawtransaction "$raw_tx" | jq -r '.vin[0].txid')
 vout0=$(bitcoin-cli -regtest decoderawtransaction "$raw_tx" | jq -r '.vin[0].vout')
-rawtxhex=$(bitcoin-cli -regtest createrawtransaction '''[ { "txid": "'$txid'", "vout0": '$vout0', "sequence": 4294967293 } ]''' '''{ "'$recipient'": 0.023 }''')
+rawtxhex=$(bitcoin-cli -regtest createrawtransaction '''[ { "txid": "'$txid'", "vout0": '$vout0'} ]''' '''{ "'$recipient'": 0.023 }''')
 
 echo $rawtxhex
