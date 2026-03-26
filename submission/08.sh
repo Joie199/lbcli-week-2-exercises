@@ -6,4 +6,4 @@ recipient="2MvLcssW49n9atmksjwg2ZCMsEMsoj3pzUP"
 TXID=$(bitcoin-cli -regtest decoderawtransaction "$raw_tx" | jq -r '.vin[0].txid')
 #bitcoin-cli -regtest createrawtransaction  "[{"txid":"$TXID","vout":0},{"txid":"$TXID","vout":1}] [{"$recipient":0.23659108}]"
 
-bitcoin-cli -regtest createrawtransaction "[{"txid":"$TXID","vout":0},{"txid":"$TXID","vout":1}]" "{"$recipient":0.23659108}"
+bitcoin-cli -regtest createrawtransaction '[{"txid":"$TXID","vout":0},{"txid":"$TXID","vout":1}] [{"$recipient":0.23659108}'
