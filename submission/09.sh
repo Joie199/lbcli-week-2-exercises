@@ -8,5 +8,5 @@ TXID=$(bitcoin-cli decoderawtransaction "$raw_tx" | jq -r '.txid')
 
 
 bitcoin-cli -regtest createrawtransaction \
-  "[{"txid":"$TXID","vout":0,"sequence":1},{"txid":"$TXID","vout":1,"sequence":1}]" \
-  "[{"2MvLcssW49n9atmksjwg2ZCMsEMsoj3pzUP":0.20000000}]"
+  '[{"txid":"$TXID","vout":0,"sequence":1},{"txid":"$TXID","vout":1,"sequence":1}]" \
+  "[{"2MvLcssW49n9atmksjwg2ZCMsEMsoj3pzUP":0.20000000}]'
