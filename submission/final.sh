@@ -46,20 +46,20 @@ echo "Decode the provided transaction and extract key information."
 echo ""
 echo "Transaction hex: ${BASE_TX:0:64}... (truncated)"
 echo ""
-
+DECODED=$(bitcoin-cli -regtest decoderawtransaction "$BASE_TX")
 # STUDENT TASK: Decode the transaction to get the TXID
 # WRITE YOUR SOLUTION BELOW:
-TXID=$(bitcoin-cli -regtest decoderawtransaction "$BASE_TX" | jq -r '.txid')
+TXID=$(echo "$DECODED" | jq -r '.txid')
 check_cmd "Transaction decoding" "TXID" "$TXID"
 
 echo "Transaction ID: $TXID"
 
 # STUDENT TASK: Extract the number of inputs and outputs from the transaction
 # WRITE YOUR SOLUTION BELOW:
-NUM_INPUTS=$(echo "$TXID" | jq '.vin | length')
+NUM_INPUTS=$(echo "$DECODED" | jq '.vin | length')
 check_cmd "Input counting" "NUM_INPUTS" "$NUM_INPUTS"
 
-NUM_OUTPUTS=$(echo "$TXID" | jq '.vout | length')
+NUM_OUTPUTS=$(echo "$DECODED" | jq '.vout | length')
 check_cmd "Output counting" "NUM_OUTPUTS" "$NUM_OUTPUTS"
 
 echo "Number of inputs: $NUM_INPUTS"
@@ -67,7 +67,7 @@ echo "Number of outputs: $NUM_OUTPUTS"
 
 # STUDENT TASK: Extract the value of the first output in satoshis
 # WRITE YOUR SOLUTION BELOW:
-FIRST_OUTPUT_VALUE=$(echo "$TXID" | jq -r ".vout[$INDEX].value * 100000000 ")
+FIRST_OUTPUT_VALUE=$(echo "$DECODED" | jq -r '.vout[0].value * 100000000')
 check_cmd "Output value extraction" "FIRST_OUTPUT_VALUE" "$FIRST_OUTPUT_VALUE"
 
 echo "First output value: $FIRST_OUTPUT_VALUE satoshis"
@@ -88,10 +88,10 @@ echo ""
 # STUDENT TASK: Extract the available UTXOs from the decoded transaction for spending
 # WRITE YOUR SOLUTION BELOW:
 UTXO_TXID=$TXID
-UTXO_VOUT_INDEX= $(echo "$UTXO_TXID" | jq '.vout[0].n')
+UTXO_VOUT_INDEX= $(echo "$DECODED" | jq '.vout[0].n')
 check_cmd "UTXO vout selection" "UTXO_VOUT_INDEX" "$UTXO_VOUT_INDEX"
 
-UTXO_VALUE=$(echo "$TX" | jq -r '.vout[0].value * 100000000')
+UTXO_VALUE=$(echo "$DECODED" | jq -r '.vout[0].value * 100000000')
 check_cmd "UTXO value extraction" "UTXO_VALUE" "$UTXO_VALUE"
 
 echo "Selected UTXO:"
@@ -212,7 +212,7 @@ echo ""
 
 # STUDENT TASK: Decode the raw transaction
 # WRITE YOUR SOLUTION BELOW:
-DECODED_TX=$(bitcoin-cli -regtest decoderawtransaction "$RAW_TX")
+DECODED_TX=$(bitcoin-cli -regtest decoderawtransaction "$BASE_TX")
 check_cmd "Transaction decoding" "DECODED_TX" "$DECODED_TX"
 
 # STUDENT TASK: Extract and verify the key components from the decoded transaction
