@@ -91,7 +91,7 @@ UTXO_TXID=$TXID
 UTXO_VOUT_INDEX=$(echo "$DECODED" | jq '.vout[0].n')
 check_cmd "UTXO vout selection" "UTXO_VOUT_INDEX" "$UTXO_VOUT_INDEX"
 
-UTXO_VALUE=$(eecho "$DECODED" | jq -r '.vout[0].value * 100000000 | floor')
+UTXO_VALUE=$(echo "$DECODED" | jq -r '.vout[0].value * 100000000 | floor')
 check_cmd "UTXO value extraction" "UTXO_VALUE" "$UTXO_VALUE"
 
 echo "Selected UTXO:"
