@@ -192,7 +192,6 @@ check_cmd "Amount conversion" "CHANGE_BTC" "$CHANGE_BTC"
 # STUDENT TASK: Create the outputs JSON structure
 TX_OUTPUTS=$(jq -n --arg addr "$PAYMENT_ADDRESS" --arg change "$CHANGE_ADDRESS" --argjson pay "$PAYMENT_BTC" --argjson chg "$CHANGE_BTC" '{ ($addr): $pay, ($change): $chg}')
 check_cmd "Output JSON creation" "TX_OUTPUTS" "$TX_OUTPUTS"
-
 # STUDENT TASK: Create the raw transaction
 RAW_TX=$(bitcoin-cli -regtest createrawtransaction "$TX_INPUTS" "$TX_OUTPUTS")
 check_cmd "Raw transaction creation" "RAW_TX" "$RAW_TX"
