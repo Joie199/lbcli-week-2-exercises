@@ -7,5 +7,5 @@ TXID=$(bitcoin-cli -regtest decoderawtransaction "$raw_tx" | jq -r '.vin[0].txid
 
 bitcoin-cli -regtest createrawtransaction \
 "[{\"txid\":\"$TXID\",\"vout\":0,\"sequence\":4294967293},{\"txid\":\"$TXID\",\"vout\":1,\"sequence\":4294967293}]" \
-"{\"$recipient\":0.023659108}"
+"{\"$recipient\":0.02}"
 
