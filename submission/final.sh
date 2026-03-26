@@ -168,7 +168,7 @@ PAYMENT_ADDRESS="2MvLcssW49n9atmksjwg2ZCMsEMsoj3pzUP"
 CHANGE_ADDRESS="bcrt1qg09ftw43jvlhj4wlwwhkxccjzmda3kdm4y83ht"
 
 # STUDENT TASK: Create a proper input JSON for createrawtransaction
-TX_INPUTS= $(jq -n --arg txid "$UTXO_TXID" --argjson vout "$UTXO_VOUT_INDEX"'[ {txid:$txid, vout:$vout, sequence:4294967293} ]')
+TX_INPUTS=$(jq -n --arg txid "$UTXO_TXID" --argjson vout "$UTXO_VOUT_INDEX"'[ {txid:$txid, vout:$vout, sequence:4294967293} ]')
 check_cmd "Input JSON creation" "TX_INPUTS" "$TX_INPUTS"
 
 # Verify RBF is enabled in the input structure
@@ -185,7 +185,7 @@ check_cmd "Change calculation" "CHANGE_AMOUNT" "$CHANGE_AMOUNT"
 
 # Convert amounts to BTC for createrawtransaction
 PAYMENT_BTC=$(echo "scale=8;$PAYMENT_AMOUNT/100000000" | bc)
-CHANGE_BTC=$(echo "scale=8;$CHANGE_AMOUNT/100000000" | bc) 
+CHANGE_BTC=$(echo "scale=8;$CHANGE_AMOUNT/100000000" | bc)
 check_cmd "Amount conversion" "PAYMENT_BTC" "$PAYMENT_BTC"
 check_cmd "Amount conversion" "CHANGE_BTC" "$CHANGE_BTC"
 
