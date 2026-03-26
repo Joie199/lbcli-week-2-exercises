@@ -345,13 +345,13 @@ echo "- Sends funds to: bcrt1qxhy8dnae50nwkg6xfmjtedgs6augk5edj2tm3e"
 echo ""
 
 # Decode the secondary transaction (SECONDARY_TX) to get its TXID
-SECONDARY_TXID=(bitcoin-cli -regtest decoderawtransaction "$SECONDARY_TX" | jq -r '.txid')
+SECONDARY_TXID=$(bitcoin-cli -regtest decoderawtransaction "$SECONDARY_TX" | jq -r '.txid')
 check_cmd "Secondary TXID extraction" "SECONDARY_TXID" "$SECONDARY_TXID"
 echo "Secondary transaction ID: $SECONDARY_TXID"
 
 # STUDENT TASK: Create the input JSON structure with a 10-block relative timelock
 # WRITE YOUR SOLUTION BELOW:
-TIMELOCK_INPUTS=$(jq -n --arg txid "$SECONDARY_TXID" '[ { txid: $txid,vout: 0,sequence: 10 }]')
+TIMELOCK_INPUTS=$(jq -n --arg txid "$SECONDARY_TXID" '[{ txid: $txid, vout: 0, sequence: 10  }]')
 check_cmd "Timelock input creation" "TIMELOCK_INPUTS" "$TIMELOCK_INPUTS"
 
 # Recipient address for timelock funds
@@ -367,7 +367,7 @@ TIMELOCK_AMOUNT=$((SECONDARY_OUTPUT_VALUE - TIMELOCK_FEE))
 check_cmd "Timelock amount calculation" "TIMELOCK_AMOUNT" "$TIMELOCK_AMOUNT"
 
 # Convert to BTC
-TIMELOCK_BTC=$((SECONDARY_OUTPUT_VALUE - TIMELOCK_FEE))
+TIMELOCK_BTC=$(echo "scale=8; $TIMELOCK_AMOUNT/100000000" | bc)
 
 # STUDENT TASK: Create the outputs JSON structure
 TIMELOCK_OUTPUTS=$(jq -n --arg addr "$TIMELOCK_ADDRESS" --argjson amt "$TIMELOCK_BTC" '{ ($addr): $amt}')
