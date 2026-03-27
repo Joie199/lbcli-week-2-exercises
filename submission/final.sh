@@ -299,7 +299,7 @@ check_cmd "Change output identification" "CHANGE_OUTPUT_INDEX" "$CHANGE_OUTPUT_I
 
 # STUDENT TASK: Create the input JSON structure for the child transaction
 # WRITE YOUR SOLUTION BELOW:
-CHILD_INPUTS=CHILD_INPUTS=$(jq -n --arg txid "$PARENT_TXID" --arg vout "$CHANGE_OUTPUT_INDEX" '
+CHILD_INPUTS=$(jq -n --arg txid "$PARENT_TXID" --arg vout "$CHANGE_OUTPUT_INDEX" '
 [{
   txid: $txid,
   vout: ($vout|tonumber),
