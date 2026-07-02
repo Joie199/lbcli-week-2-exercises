@@ -192,7 +192,7 @@ TX_OUTPUTS='{"'"$PAYMENT_ADDRESS"'": '"$PAYMENT_BTC"', "'"$CHANGE_ADDRESS"'": '"
 check_cmd "Output JSON creation" "TX_OUTPUTS" "$TX_OUTPUTS"
 
 # STUDENT TASK: Create the raw transaction
-RAW_TX=$(bitcoin-cli -regtest createrawtransaction inputs="$TX_INPUTS" outputs="$TX_OUTPUTS")
+RAW_TX=$(bitcoin-cli -regtest -named createrawtransaction inputs="$TX_INPUTS" outputs="$TX_OUTPUTS")
 check_cmd "Raw transaction creation" "RAW_TX" "$RAW_TX"
 
 echo "Successfully created raw transaction!"
@@ -257,7 +257,7 @@ SIMPLE_TX_INPUTS='[{"txid":"'$TXID'","vout":0,"sequence":4294967293}]'
 SIMPLE_TX_OUTPUTS='{"'$TEST_ADDRESS'":0.0001}'
 
 # Create a raw transaction for signing using the SIMPLE_TX_INPUTS and SIMPLE_TX_OUTPUTS
-SIMPLE_RAW_TX=$(bitcoin-cli -regtest createrawtransaction inputs="$SIMPLE_TX_INPUTS" outputs="$SIMPLE_TX_OUTPUTS")
+SIMPLE_RAW_TX=$(bitcoin-cli -regtest -named createrawtransaction inputs="$SIMPLE_TX_INPUTS" outputs="$SIMPLE_TX_OUTPUTS")
 check_cmd "Simple transaction creation" "SIMPLE_RAW_TX" "$SIMPLE_RAW_TX"
 
 echo "Simple transaction created: ${SIMPLE_RAW_TX:0:64}... (truncated)"
@@ -344,7 +344,7 @@ echo "- Sends funds to: bcrt1qxhy8dnae50nwkg6xfmjtedgs6augk5edj2tm3e"
 echo ""
 
 # Decode the secondary transaction (SECONDARY_TX) to get its TXID
-SECONDARY_TXID=$(bitcoin-cli -regtest decoderawtransaction "$SECONDARY_TX" | jq -r '.txid')
+SECONDARY_TXID=$(bitcoin-cli -regtest -named decoderawtransaction "$SECONDARY_TX" | jq -r '.txid')
 check_cmd "Secondary TXID extraction" "SECONDARY_TXID" "$SECONDARY_TXID"
 echo "Secondary transaction ID: $SECONDARY_TXID"
 
@@ -358,7 +358,7 @@ TIMELOCK_ADDRESS="bcrt1qxhy8dnae50nwkg6xfmjtedgs6augk5edj2tm3e"
 
 # STUDENT TASK: Calculate the amount to send (use the output value from SECONDARY_TX, minus a fee)
 # Hint: Extract the output value from the secondary TX first
-SECONDARY_OUTPUT_VALUE=$(bitcoin-cli -regtest decoderawtransaction "$SECONDARY_TX" | jq -r '.vout[0].value * 100000000 | floor')
+SECONDARY_OUTPUT_VALUE=$(bitcoin-cli -regtest -named decoderawtransaction "$SECONDARY_TX" | jq -r '.vout[0].value * 100000000 | floor')
 check_cmd "Secondary output value extraction" "SECONDARY_OUTPUT_VALUE" "$SECONDARY_OUTPUT_VALUE"
 
 TIMELOCK_FEE=1000 # Use a simple fee of 1000 satoshis for this exercise
