@@ -184,8 +184,8 @@ CHANGE_AMOUNT=$((UTXO_VALUE - PAYMENT_AMOUNT - FEE_SATS))
 check_cmd "Change calculation" "CHANGE_AMOUNT" "$CHANGE_AMOUNT"
 
 # Convert amounts to BTC for createrawtransaction
-PAYMENT_BTC=$(echo "scale=8; $PAYMENT_AMOUNT / 100000000" | bc)
-CHANGE_BTC=$(echo "scale=8; $CHANGE_AMOUNT / 100000000" | bc)
+PAYMENT_BTC=$(printf "%.8f" "$(echo "$PAYMENT_AMOUNT / 100000000" | bc -l)")
+CHANGE_BTC=$(printf "%.8f" "$(echo "$CHANGE_AMOUNT / 100000000" | bc -l)")
 
 # STUDENT TASK: Create the outputs JSON structure
 TX_OUTPUTS='{"'"$PAYMENT_ADDRESS"'": '"$PAYMENT_BTC"', "'"$CHANGE_ADDRESS"'": '"$CHANGE_BTC"'}'
