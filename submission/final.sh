@@ -192,7 +192,7 @@ TX_OUTPUTS='{"'"$PAYMENT_ADDRESS"'": '"$PAYMENT_BTC"', "'"$CHANGE_ADDRESS"'": '"
 check_cmd "Output JSON creation" "TX_OUTPUTS" "$TX_OUTPUTS"
 
 # STUDENT TASK: Create the raw transaction
-RAW_TX=$(bitcoin-cli -regtest -named createrawtransaction inputs="$TX_INPUTS" outputs="$TX_OUTPUTS")
+RAW_TX=$(bitcoin-cli -regtest createrawtransaction inputs="$TX_INPUTS" outputs="$TX_OUTPUTS")
 check_cmd "Raw transaction creation" "RAW_TX" "$RAW_TX"
 
 echo "Successfully created raw transaction!"
@@ -257,7 +257,7 @@ SIMPLE_TX_INPUTS='[{"txid":"'$TXID'","vout":0,"sequence":4294967293}]'
 SIMPLE_TX_OUTPUTS='{"'$TEST_ADDRESS'":0.0001}'
 
 # Create a raw transaction for signing using the SIMPLE_TX_INPUTS and SIMPLE_TX_OUTPUTS
-SIMPLE_RAW_TX=$(bitcoin-cli -regtest -named createrawtransaction inputs="$SIMPLE_TX_INPUTS" outputs="$SIMPLE_TX_OUTPUTS")
+SIMPLE_RAW_TX=$(bitcoin-cli -regtest createrawtransaction inputs="$SIMPLE_TX_INPUTS" outputs="$SIMPLE_TX_OUTPUTS")
 check_cmd "Simple transaction creation" "SIMPLE_RAW_TX" "$SIMPLE_RAW_TX"
 
 echo "Simple transaction created: ${SIMPLE_RAW_TX:0:64}... (truncated)"
@@ -369,7 +369,7 @@ check_cmd "Timelock amount calculation" "TIMELOCK_AMOUNT" "$TIMELOCK_AMOUNT"
 TIMELOCK_BTC=$(printf "%.8f" "$(echo "$TIMELOCK_AMOUNT / 100000000" | bc -l)")
 
 # STUDENT TASK: Create the outputs JSON structure
-TIMELOCK_OUTPUTS='[{"address":"'"$TIMELOCK_ADDRESS"'","amount":'"$TIMELOCK_BTC"'}]'
+TIMELOCK_OUTPUTS='{"'"$TIMELOCK_ADDRESS"'":'"$TIMELOCK_BTC"'}'
 check_cmd "Timelock output creation" "TIMELOCK_OUTPUTS" "$TIMELOCK_OUTPUTS"
 
 # STUDENT TASK: Create the raw transaction with timelock
